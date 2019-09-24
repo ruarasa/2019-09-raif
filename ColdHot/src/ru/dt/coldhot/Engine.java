@@ -3,21 +3,25 @@ package ru.dt.coldhot;
 import java.util.Scanner;
 
 import static java.lang.Math.abs;
-import static ru.dt.coldhot.Engine.ComparisonResult.*;
+import static ru.dt.coldhot.ComparisonResult.*;
 
 public class Engine {
-    private static final int MAX_NUMBER = 100;
-    private static final int MAX_NUMBER_OF_ATTEMPTS = 10;
+    private final int MAX_RANDOM_NUMBER;
+    private final int MAX_NUMBER_OF_ATTEMPTS;
     private int randomNumber;
     private int userInput;
     private int previousAttempt = -1;
     private int numberOfAttempts = 0;
     private Scanner scanner = new Scanner(System.in);
 
+    public Engine(int maxRandomNumber, int maxNumberOfAttempts) {
+        this.MAX_RANDOM_NUMBER = maxRandomNumber;
+        this.MAX_NUMBER_OF_ATTEMPTS = maxNumberOfAttempts;
+    }
 
     public void init() {
-        System.out.println("Я загадал число. Попробуй угадать!");
-        randomNumber = (int) (Math.random() * MAX_NUMBER);
+        System.out.println("Я загадал число от 0 до " + MAX_RANDOM_NUMBER + ". Попробуй угадать!");
+        randomNumber = (int) (Math.random() * MAX_RANDOM_NUMBER);
     }
 
     public void runGame() {
@@ -68,26 +72,6 @@ public class Engine {
             return FAR_AWAY;
         }
     }
-
-    enum ComparisonResult {
-        CLOSER("теплее"),
-        EQUAL("Успех!"),
-        FAR_AWAY("холодно"),
-        SAME("Так же"),
-        FIRE("Огонь-огонь!!");
-
-        private String text;
-
-        ComparisonResult(String text) {
-            this.text = text;
-        }
-
-        public String getText() {
-            return text;
-        }
-    }
-
-    ;
 
     private int previousDistance() {
         return abs(randomNumber - previousAttempt);
